@@ -3,14 +3,14 @@ package main;
 import main.Game;
 
 import javax.swing.*;
-
-
+import java.awt.*;
 
 
 public class Main {
-    private static int WIDTH;
-    private static int HEIGHT;
+    static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
+    private static int WIDTH = (int) screenSize.getWidth();
+    private static int HEIGHT = (int) screenSize.getHeight();
     public static int getWIDTH() {
         return WIDTH;
     }
@@ -28,9 +28,6 @@ public class Main {
         frame.setSize(500,500);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
-
-        HEIGHT = frame.getHeight();
-        WIDTH = frame.getWidth();
 
         Game game = new Game();
         frame.add(game);

@@ -19,12 +19,24 @@ public class Player {
         private Classes classs;
         private int Light;
         private double damageMultiplier;
-        private double universalMultiplier = 1;
+
+    public int getPlayerWidth() {
+        return playerWidth;
+    }
+
+    public int getPlayerHeight() {
+        return playerHeight;
+    }
+
+    private double universalMultiplier = 1;
         private int x,y;
         private double movementSpeed = 1;
+        private int playerWidth = 50;
+        private int playerHeight = 75;
 
 
-        Game g;
+
+    Game g;
         KeyUtil keyUtil;
 
         public Player(Game g, KeyUtil keyUtil) {
@@ -187,7 +199,7 @@ public class Player {
     public void draw(Graphics2D g2) {
         g2.setColor(Color.RED);
 
-        g2.fillRect(x, y, 200, 200);
+        g2.fillRect(x, y, playerWidth, playerHeight);
     }
 
 

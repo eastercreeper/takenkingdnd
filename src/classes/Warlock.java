@@ -44,7 +44,7 @@ public class Warlock extends Player {
         setIntellect(20);
         setMobility(20);
         setStrength(20);
-        setRecov(20);
+        setRecov(100);
         this.g = g;
         this.keyUtil = keyUtil;
     }
@@ -174,9 +174,11 @@ public class Warlock extends Player {
             setX(getX()+ (5/g.getMultiplierFPS()));
         }
         if(keyUtil.healingriftPressed) {
+            if(!healingriftActive) {
                 HealingRift();
                 riftX = getX();
                 riftY = getY();
+            }
         }
         if(keyUtil.empoweringPressed) {
             empoweringRift();
@@ -192,7 +194,7 @@ public class Warlock extends Player {
         }
        if(HCooldownC<=30*1000 && healingriftUsed) {
             g2.setColor(Color.GRAY);
-            g2.fillRect(10,getHEIGHT()-150-(HCooldownC/2000),150,150-(HCooldownC/2000));
+            g2.fillRect(10,getHEIGHT()-85   ,75,75);
 
         }
         super.draw(g2);

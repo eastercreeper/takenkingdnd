@@ -18,7 +18,17 @@ public class Player {
         private int strength;
         private Classes classs;
         private int Light;
-        private double damageMultiplier;
+
+    public boolean isTakingDamage() {
+        return takingDamage;
+    }
+
+    public void setTakingDamage(boolean takingDamage) {
+        this.takingDamage = takingDamage;
+    }
+
+    private double damageMultiplier;
+        private boolean takingDamage;
 
     public int getPlayerWidth() {
         return playerWidth;
@@ -30,7 +40,7 @@ public class Player {
 
     private double universalMultiplier = 1;
         private int x,y;
-        private double movementSpeed = 1;
+        private int movementSpeed = 5;
         private int playerWidth = 50;
         private int playerHeight = 75;
 
@@ -51,11 +61,11 @@ public class Player {
         this.universalMultiplier = universalMultiplier;
     }
 
-    public double getMovementSpeed() {
+    public int getMovementSpeed() {
         return movementSpeed;
     }
 
-    public void setMovementSpeed(double movementSpeed) {
+    public void setMovementSpeed(int movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
 
@@ -184,16 +194,16 @@ public class Player {
     public void update() {
 
         if(keyUtil.upPressed) {
-            y -= (5/g.getMultiplierFPS());
+            y -= movementSpeed;
         }
         if(keyUtil.leftPressed) {
-            x -= (5/g.getMultiplierFPS());
+            x -= movementSpeed;
         }
         if(keyUtil.downPressed) {
-            y+=(5/g.getMultiplierFPS());
+            y+=movementSpeed;
         }
         if(keyUtil.rightPressed) {
-            x+=(5/g.getMultiplierFPS());
+            x+=movementSpeed;
         }
     }
     public void draw(Graphics2D g2) {

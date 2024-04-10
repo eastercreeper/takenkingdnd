@@ -21,9 +21,9 @@ public class Game extends JPanel implements Runnable {
         return multiplierFPS;
     }
 
-    int FPS = 240;
+    int FPS = 60;
     int baseFPS = 60;
-    int multiplierFPS = FPS/baseFPS;
+    int multiplierFPS = 1;
 
 
 
@@ -70,12 +70,17 @@ public class Game extends JPanel implements Runnable {
     }
     public void update() {
         warlock.update();
-        enemy.update(warlock.getX(), warlock.getY());
+        enemy.update(warlock.getX(), warlock.getY(), warlock);
+        System.out.println(warlock.getHealth());
+        if(warlock.getHealth() <= 0) {
+            gameThread.stop();
+        }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         warlock.draw(g2);
+
         enemy.draw(g2);
 
         g2.dispose();

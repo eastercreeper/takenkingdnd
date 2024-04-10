@@ -17,25 +17,16 @@ public class Warlock extends Player {
 
     private double healthPerMilli =  0.004;
     private double healthPerMilli200plus = 0.003;
-    private boolean radiantActive = false;
-    private boolean poweredMeeleKill;
-    public int getRiftCD() {
-        return cooldownTier;
-    }
-    private int cooldownTier;
     private double riftX = getX();
     private double riftY = getY();
     private boolean healingriftActive = false;
-    private boolean empoweringRiftActive = false;
     private boolean healingriftUsed = false;
     private int HCooldownC = 0;
-
-    private int riftType = 0;
     int r = 100;
     int diameter = r*2;
 
 
-    KeyUtil keyUtil = new KeyUtil();
+    KeyUtil keyUtil;
     Game g;
     public Warlock(Game g, KeyUtil keyUtil) {
         super(g,keyUtil);
@@ -130,48 +121,38 @@ public class Warlock extends Player {
                 }
             }, 0, 1);
     }
-
-
-    public void empoweringRift() {
-        empoweringRiftActive = true;
-
-        Timer timer = new Timer();
-
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int count = 0;
-            @Override
-            public void run() {
-                if(getX()<riftX+r && getX()>riftX-r && getY() < riftY+r && getY()>riftY-r && !radiantActive) {
-                    setDamageMultiplier(getUniversalMultiplier()+.2);
+    public void healing() {
+        if(!isTakingDamage()) {
+            Timer resetTimer = new Timer();
+            resetTimer.scheduleAtFixedRate(new TimerTask() {
+                int count = 0;
+                @Override
+                public void run() {
+                    if(count % 100 == 0) {
+                        addHealth(4);
+                    }
+                    count++;
+                    if (count == 5000 || getHealth()>= 200) { // cd * 1000 milliseconds
+                        resetTimer.cancel();
+                        HCooldownC = 0;
+                    }
                 }
-                count++;
-                if (count == 15000) { // 15 seconds * 1000 milliseconds
-                    timer.cancel();
-                    empoweringRiftActive = false;
-                }
-            }
-        },0,1);
-    }
-    public void activateRadiant() {
-        if(poweredMeeleKill) {
-
+            }, 0, 1);
         }
     }
-
     @Override
     public void update() {
         if(keyUtil.upPressed) {
-           setY(getY()- (5/g.getMultiplierFPS()));
+           setY(getY()- (getMovementSpeed()));
         }
         if(keyUtil.leftPressed) {
-            setX(getX()- (5/g.getMultiplierFPS()));
+            setX(getX()- (getMovementSpeed()));
         }
         if(keyUtil.downPressed) {
-            setY(getY()+ (5/g.getMultiplierFPS()));
+            setY(getY()+ (getMovementSpeed()));
         }
         if(keyUtil.rightPressed) {
-            setX(getX()+ (5/g.getMultiplierFPS()));
+            setX(getX()+ (getMovementSpeed()));
         }
         if(keyUtil.healingriftPressed) {
             if(!healingriftActive) {
@@ -180,24 +161,18 @@ public class Warlock extends Player {
                 riftY = getY();
             }
         }
-        if(keyUtil.empoweringPressed) {
-            empoweringRift();
-            riftX = getX();
-            riftY = getY();
-        }
 
     }
     public void draw(Graphics2D g2) {
+        super.draw(g2);
         if(healingriftActive) {
             g2.setColor(Color.WHITE);
             g2.fillOval((int) riftX,(int) riftY,r,r);
         }
-       if(HCooldownC<=30*1000 && healingriftUsed) {
+        if(HCooldownC<=30*1000 && healingriftUsed) {
             g2.setColor(Color.GRAY);
-            g2.fillRect(10,getHEIGHT()-85   ,75,75);
+            g2.fillRect(95,getHEIGHT()-85   ,75,75);
 
         }
-        super.draw(g2);
-
     }
 }

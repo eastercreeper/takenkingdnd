@@ -1,14 +1,10 @@
 package guns;
 
-import java.awt.*;
-
 public class weapons {
     private int damage,type,ammo,reserves,ammotype;
-    public weapons(int damage, int type, int ammo, int reserves, int ammotype) {
+    public weapons(int damage, int type, int ammotype) {
         this.damage = damage;
         this.type = type;
-        this.ammo = ammo;
-        this.reserves = reserves;
         this.ammotype = ammotype;
     }
 
@@ -51,29 +47,27 @@ public class weapons {
     public void setAmmotype(int ammotype) {
         this.ammotype = ammotype;
     }
-    public int seBaseAmmo(int ammotype) {
+    public void seBaseAmmo(int ammotype) {
         if(ammotype == 1) {
-            return 36;
+            ammo = 36;
         }
         if(ammotype == 2) {
-            return 4;
+            ammo = 4;
         }
         if(ammotype == 3) {
-            return 1;
+            ammo = 1;
         }
-        return 0;
     }
-    public int setReserveAmmo(int ammotype) {
+    public void setReserveAmmo(int ammotype) {
         if(ammotype == 1) {
-            return 324;
+            reserves = 324;
         }
         if(ammotype == 2) {
-            return 24;
+            reserves =  24;
         }
         if(ammotype == 3) {
-            return 6;
+            reserves =  6;
         }
-        return 0;
     }
     public void addAmmo(int pickupType) {
         if(pickupType == 1) {
@@ -86,5 +80,4 @@ public class weapons {
             ammo+=2;
         }
     }
-
 }

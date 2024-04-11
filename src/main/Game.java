@@ -3,8 +3,10 @@ package main;
 import classes.Warlock;
 import org.lwjgl.Sys;
 import player.Enemy;
+import player.EnemyManager;
 import player.Player;
 import utils.KeyUtil;
+import utils.MouseUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,13 +15,13 @@ import java.util.ArrayList;
 public class Game extends JPanel implements Runnable {
     Thread gameThread;
     KeyUtil keyUtil = new KeyUtil();
+    MouseUtil mouseUtil = new MouseUtil();
     Warlock warlock = new Warlock(this,keyUtil);
     Enemy enemy;
     private int y = warlock.getY();
     private int x = warlock.getX();
     private int wave = 11;
 
-    ArrayList<Enemy> enemies;
 
     public int getMultiplierFPS() {
         return multiplierFPS;
@@ -28,6 +30,8 @@ public class Game extends JPanel implements Runnable {
     int FPS = 60;
     int baseFPS = 60;
     int multiplierFPS = 1;
+    EnemyManager eM = new EnemyManager(wave);
+
 
 
 
@@ -35,8 +39,8 @@ public class Game extends JPanel implements Runnable {
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyUtil);
+        this.addMouseListener(mouseUtil);
         this.setFocusable(true);
-        enemies = new ArrayList<Enemy>();
     }
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -75,39 +79,17 @@ public class Game extends JPanel implements Runnable {
     }
     public void update() {
         warlock.update();
-        if(enemies.isEmpty()) {
-            for (int i = 0; i < 11; i++) {
-                enemies.add(new Enemy(this, keyUtil, 25, 25));
-                enemies.get(i).setSpeed((int) (Math.random() * 4) + 1);
-                enemies.get(i).setX((int) (Math.random() * 1920 ));
-                enemies.get(i).setY((int) (Math.random() * 1080 ));
-            }
-        }
-        for(int j = 0; j < 11; j++) {
-            if(enemies.get(j).geteHealth() <= 0) {
-                enemies.remove(j);
-            }
-        }
-        for (Enemy enemy : enemies) {
-            enemy.update(warlock.getX(), warlock.getY(), warlock);
-        }
-
         System.out.println(warlock.getHealth());
         if(warlock.getHealth() <= 0) {
             //gameThread.stop();
         }
-        if(enemies.isEmpty()) {
-            wave++;
-        }
+        eM.update(warlock.getX(),warlock.getY(), warlock);
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         warlock.draw(g2);
-        for (Enemy enemy : enemies) {
-            enemy.draw(g2);
-        }
-
+        eM.draw(g2);
 
         g2.dispose();
     }

@@ -40,7 +40,7 @@ public class Player {
 
     private double universalMultiplier = 1;
         private int x,y;
-        private int movementSpeed = 5;
+        private int movementSpeed = 8;
         private int playerWidth = 50;
         private int playerHeight = 75;
 

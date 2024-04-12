@@ -85,11 +85,11 @@ public class Warlock extends Player {
                     healingriftUsed = true;
                     if (getHealth() < 200 && getX() + getPlayerWidth() / 2 < riftX + r && getX() + getPlayerWidth() / 2 > riftX - r && getY() + getPlayerHeight() / 2 < riftY + r && getY() > riftY - r) {
                         addHealth(healthPerMilli);
-                        System.out.println(getHealth());
+                        //System.out.println(getHealth());
 
                     } else if (getHealth() >= 200 && getHealth() < 215 && getX() < riftX + r && getX() > riftX - r && getY() < riftY + r && getY() > riftY - r) {
                         addHealth(healthPerMilli200plus);
-                        System.out.println(getHealth());
+                        //System.out.println(getHealth());
 
                     }
                     count++;
@@ -142,16 +142,19 @@ public class Warlock extends Player {
     }
     @Override
     public void update() {
-        if(keyUtil.upPressed) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        if(keyUtil.upPressed && getY()  > 0) {
            setY(getY()- (getMovementSpeed()));
         }
-        if(keyUtil.leftPressed) {
+        if(keyUtil.leftPressed && getX() > 0) {
             setX(getX()- (getMovementSpeed()));
         }
-        if(keyUtil.downPressed) {
+        if(keyUtil.downPressed && getY() < screenHeight-getPlayerHeight()) {
             setY(getY()+ (getMovementSpeed()));
         }
-        if(keyUtil.rightPressed) {
+        if(keyUtil.rightPressed && getX() < screenWidth-getPlayerWidth()) {
             setX(getX()+ (getMovementSpeed()));
         }
         if(keyUtil.healingriftPressed) {

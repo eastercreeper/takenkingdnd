@@ -24,8 +24,8 @@ public class EnemyManager {
         }
     }
     public void draw(Graphics2D g2) {
-        for(int i = 0; i < e.size(); i++) {
-            temp = e.get(i);
+        for (Enemy enemy : e) {
+            temp = enemy;
 
             temp.draw(g2);
         }

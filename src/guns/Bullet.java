@@ -1,45 +1,47 @@
 package guns;
 
+import org.lwjgl.input.Mouse;
+import utils.MouseUtil;
+
 import java.awt.*;
 
 public class Bullet {
-    private int ammoType;
-    private int x,y;
-    public Bullet(int ammoType) {
-        this.ammoType = ammoType;
+   private int x, y;
+    private double angle;
+    private int dx, dy;
+    private int speed, rpm, range, dmg;
+   MouseUtil mU;
+    public Bullet() {
+        speed = 20;
     }
 
-    public int getX() {
-        return x;
+    public void update(int px, int py) {
+         dx = mU.getX() - px;
+         dy = mU.getY() - py;
+
+         angle = Math.atan2(dy, dx);
+         System.out.println(angle);
+        move();
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void move() {
+        x += (int) Math.cos(angle);
+        y += (int) Math.sin(angle);
     }
 
-    public int getY() {
-        return y;
-    }
+//    public void tick(int px, int py) {
+//        double dx = Math.abs(Mouse.getX() - px);
+//        double dy = Math.abs(Mouse.getY() - py);
+//        double angle = Math.atan2(dy,dx);
+//
+//        x += (int) (Math.cos(Math.toRadians(angle)) * 15);
+//        y += (int) (Math.sin(Math.toRadians(angle)) * 15);
+//
+//    }
 
-    public void setY(int y) {
-        this.y = y;
-    }
 
     public void draw(Graphics2D g2) {
-        if(ammoType == 1) {
             g2.setColor(Color.white);
-            g2.fillRect(x,y,10,3);
-        }
-        if(ammoType == 2) {
-            g2.setColor(Color.GREEN);
-            g2.fillRect(x,y,10,5);
-        }
-        if(ammoType == 3) {
-            g2.setColor(new Color(131, 0, 255));
-            g2.fillOval(x,y,15,8);
-        }
-    }
-    public void update(int playerX, int playerY) {
-
+            g2.fillRect((int)x,(int)y,10,4);
     }
 }

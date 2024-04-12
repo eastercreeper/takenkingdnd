@@ -10,7 +10,7 @@ import java.util.TimerTask;
 
 public class Enemy extends Player {
 
-    private int Health = 5;
+    private int Health = 500;
     private int spawnRate = 1;
     private int Speed = 3;
 
@@ -88,7 +88,6 @@ public class Enemy extends Player {
                     if(count % 1000 == 0) {
                         p.setHealth(p.getHealth()-Damage);
                         setTakingDamage(true);
-
                     }
                     count++;
                     if (count == 5000) { // cd * 1000 milliseconds

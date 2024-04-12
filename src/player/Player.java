@@ -28,7 +28,7 @@ public class Player {
     }
 
     private double damageMultiplier;
-        private boolean takingDamage;
+    private boolean takingDamage;
 
     public int getPlayerWidth() {
         return playerWidth;
@@ -193,16 +193,16 @@ public class Player {
     }
     public void update() {
 
-        if(keyUtil.upPressed) {
+        if(keyUtil.upPressed && y > 0) {
             y -= movementSpeed;
         }
-        if(keyUtil.leftPressed) {
+        if(keyUtil.leftPressed && x > 0) {
             x -= movementSpeed;
         }
-        if(keyUtil.downPressed) {
+        if(keyUtil.downPressed && y < 1080) {
             y+=movementSpeed;
         }
-        if(keyUtil.rightPressed) {
+        if(keyUtil.rightPressed && x < 1920) {
             x+=movementSpeed;
         }
     }

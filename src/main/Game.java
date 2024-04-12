@@ -1,6 +1,8 @@
 package main;
 
 import classes.Warlock;
+import guns.Bullet;
+import guns.BulletManager;
 import org.lwjgl.Sys;
 import player.Enemy;
 import player.EnemyManager;
@@ -23,6 +25,7 @@ public class Game extends JPanel implements Runnable {
     private int wave = 11;
 
 
+
     public int getMultiplierFPS() {
         return multiplierFPS;
     }
@@ -30,7 +33,8 @@ public class Game extends JPanel implements Runnable {
     int FPS = 60;
     int baseFPS = 60;
     int multiplierFPS = 1;
-    EnemyManager eM = new EnemyManager(wave);
+    private EnemyManager eM = new EnemyManager(wave);
+    private BulletManager bM = new BulletManager();
 
 
 
@@ -71,7 +75,7 @@ public class Game extends JPanel implements Runnable {
             }
 
             if(timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
+                //System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
             }
@@ -79,18 +83,20 @@ public class Game extends JPanel implements Runnable {
     }
     public void update() {
         warlock.update();
-        System.out.println(warlock.getHealth());
+        //.out.println(warlock.getHealth());
         if(warlock.getHealth() <= 0) {
             //gameThread.stop();
         }
         eM.update(warlock.getX(),warlock.getY(), warlock);
+        bM.update(warlock.getX(),warlock.getY());
+
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         warlock.draw(g2);
         eM.draw(g2);
-
+        bM.draw(g2);
         g2.dispose();
     }
 }

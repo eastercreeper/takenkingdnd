@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 
 public class MouseUtil implements MouseListener {
     private boolean lmb;
+    private int x, y;
 
     public boolean isLmb() {
         return lmb;
@@ -16,7 +17,9 @@ public class MouseUtil implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if(e.getButton() == MouseEvent.BUTTON1) {
+            lmb = true;
+        }
     }
 
     @Override
@@ -38,8 +41,20 @@ public class MouseUtil implements MouseListener {
 
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+    public void mouseDragged(MouseEvent e) {
+        x = e.getX();
+        y = e.getY();
     }
 }

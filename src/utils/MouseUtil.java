@@ -1,5 +1,7 @@
 package utils;
 
+import org.lwjgl.Sys;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -18,6 +20,9 @@ public class MouseUtil implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1) {
+            System.out.println("help");
+            x=e.getX();
+            y=e.getY();
             lmb = true;
         }
     }

@@ -6,27 +6,28 @@ import utils.MouseUtil;
 import java.awt.*;
 
 public class Bullet {
-   private int x, y;
-    private double angle;
-    private int dx, dy;
-    private int speed, rpm, range, dmg;
-   MouseUtil mU;
-    public Bullet() {
-        speed = 20;
+   MouseUtil mU = new MouseUtil();
+    private int x, y;// Bullet position
+    private double angle,dx,dy;
+    private int targetX, targetY; // Mouse positio
+    public Bullet(int x, int y, int targetX, int targetY) {
+        this.x = x;
+        this.y = y;
+        this.targetX = targetX;
+        this.targetY = targetY;
+         dx = targetX - x;
+         dy = targetY - y;
+        angle = Math.atan2(dy,dx);
     }
 
-    public void update(int px, int py) {
-         dx = mU.getX() - px;
-         dy = mU.getY() - py;
 
-         angle = Math.atan2(dy, dx);
-         System.out.println(angle);
-        move();
+    public void update() {
+
+        x += (int) Math.cos(angle);
+        y += (int) Math.sin(angle);
     }
 
     public void move() {
-        x += (int) Math.cos(angle);
-        y += (int) Math.sin(angle);
     }
 
 //    public void tick(int px, int py) {

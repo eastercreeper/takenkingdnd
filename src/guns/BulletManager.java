@@ -6,16 +6,19 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class BulletManager {
-    private ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
+    ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
 
     Bullet tb;
     MouseUtil mU = new MouseUtil();
+    public BulletManager(int x, int y, int TargetX, int TargetY) {
+        addBullet(new Bullet(x,y,TargetX,TargetY));
+    }
 
-    public void update(int px, int py) {
+    public void update() {
             for (Bullet bullet : bulletList) {
                 tb = bullet;
 
-                tb.update(px, py);
+                tb.update();
             }
     }
 

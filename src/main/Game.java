@@ -34,8 +34,9 @@ public class Game extends JPanel implements Runnable {
     int baseFPS = 60;
     int multiplierFPS = 1;
     private EnemyManager eM = new EnemyManager(wave);
-    private BulletManager bM = new BulletManager();
+    private BulletManager bM;
 
+    Bullet bullet;
 
 
 
@@ -88,7 +89,10 @@ public class Game extends JPanel implements Runnable {
             //gameThread.stop();
         }
         eM.update(warlock.getX(),warlock.getY(), warlock);
-        bM.update(warlock.getX(),warlock.getY());
+        if(mouseUtil.isLmb()) {
+            bM = new BulletManager(x,y, mouseUtil.getX(), mouseUtil.getY());
+            bM.update();
+        }
 
     }
     public void paintComponent(Graphics g) {
@@ -96,7 +100,9 @@ public class Game extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         warlock.draw(g2);
         eM.draw(g2);
-        bM.draw(g2);
+        if(mouseUtil.isLmb()) {
+            bM.draw(g2);
+        }
         g2.dispose();
     }
 }

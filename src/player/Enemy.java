@@ -12,21 +12,21 @@ public class Enemy extends Player {
 
     private int Health = 500;
     private int spawnRate = 1;
-    private int Speed = 3;
+    private double Speed = 3 * (Math.random() * 1);
 
-    public int getSpeed() {
-        return Speed;
-    }
 
-    public void setSpeed(int speed) {
-        Speed = speed;
-    }
 
-    private int Damage = 20;
+
+    private int Damage = 6;
+    private boolean dealingDamage;
     private int x,y,width,height;
 
     public int geteHealth() {
         return Health;
+    }
+
+    public boolean isDealingDamage() {
+        return dealingDamage;
     }
 
     public void setHealth(int health) {
@@ -80,22 +80,8 @@ public class Enemy extends Player {
 
     public void dealDamage(int playerX,int playerY,Player p) {
         if (x + width >= playerX && x <= playerX + getPlayerWidth() && y + height >= playerY && y <= playerY + getPlayerHeight()) {
-            Timer resetTimer = new Timer();
-            resetTimer.scheduleAtFixedRate(new TimerTask() {
-                int count = 0;
-                @Override
-                public void run() {
-                    if(count % 1000 == 0) {
-                        p.setHealth(p.getHealth()-Damage);
-                        setTakingDamage(true);
-                    }
-                    count++;
-                    if (count == 5000) { // cd * 1000 milliseconds
-                        resetTimer.cancel();
-                        setTakingDamage(false);
-                    }
-                }
-            }, 0, 1);
+            p.setHealth(p.getHealth()-Damage);
+            dealingDamage = true;
         }
     }
 
@@ -105,8 +91,7 @@ public class Enemy extends Player {
             g2.fillOval(x, y, width, height);
 
     }
-    public void update(int playerX, int playerY,Player p) {
+    public void update(int playerX, int playerY) {
         followPlayer(playerX, playerY);
-        dealDamage(playerX,playerY,p);
     }
 }

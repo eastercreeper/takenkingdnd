@@ -15,7 +15,7 @@ import static main.Main.getHEIGHT;
 
 public class Warlock extends Player {
 
-    private double healthPerMilli =  0.004;
+    private double healthPerMilli =  0.04;
     private double healthPerMilli200plus = 0.003;
     private double riftX = getX();
     private double riftY = getY();
@@ -64,7 +64,7 @@ public class Warlock extends Player {
         } else if(recovTier == 9) {
             return 46;
         } else if(recovTier == 10) {
-            return 41;
+            return 15;
         }
         return 117;
     }
@@ -140,8 +140,8 @@ public class Warlock extends Player {
             }, 0, 1);
         }
     }
-    @Override
     public void update() {
+        super.update(getX(), getY());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();

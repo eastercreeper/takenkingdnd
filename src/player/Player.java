@@ -1,10 +1,16 @@
 package player;
 
 import classes.Classes;
+import guns.Bullet;
+import guns.BulletManager;
 import main.Game;
+import org.lwjgl.Sys;
+import org.lwjgl.input.Mouse;
 import utils.KeyUtil;
+import utils.MouseUtil;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Player {
         private double Health;
@@ -18,18 +24,14 @@ public class Player {
         private int strength;
         private Classes classs;
         private int Light;
-
     public boolean isTakingDamage() {
         return takingDamage;
     }
-
     public void setTakingDamage(boolean takingDamage) {
         this.takingDamage = takingDamage;
     }
-
     private double damageMultiplier;
     private boolean takingDamage;
-
     public int getPlayerWidth() {
         return playerWidth;
     }
@@ -37,131 +39,58 @@ public class Player {
     public int getPlayerHeight() {
         return playerHeight;
     }
-
-    private double universalMultiplier = 1;
         private int x,y;
         private int movementSpeed = 8;
         private int playerWidth = 50;
+        protected int dir = 0;
         private int playerHeight = 75;
-
-
-
-    Game g;
+        Game g;
         KeyUtil keyUtil;
+
+        BulletManager bulletManager = new BulletManager();
 
         public Player(Game g, KeyUtil keyUtil) {
             this.g = g;
             this.keyUtil = keyUtil;
         }
-    public double getUniversalMultiplier() {
-        return universalMultiplier;
-    }
-
-    public void setUniversalMultiplier(double universalMultiplier) {
-        this.universalMultiplier = universalMultiplier;
-    }
-
     public int getMovementSpeed() {
         return movementSpeed;
     }
-
-    public void setMovementSpeed(int movementSpeed) {
-        this.movementSpeed = movementSpeed;
-    }
-
-    public Classes getClasss() {
-        return classs;
-    }
-
-    public void setClasss(Classes classs) {
-        this.classs = classs;
-    }
-
-    public int getLight() {
-        return Light;
-    }
-
-    public void setLight(int light) {
-        Light = light;
-    }
-
     public int getX() {
         return x;
     }
-
     public void setX(int x) {
         this.x = x;
     }
-
     public int getY() {
         return y;
     }
-
     public void setY(int y) {
         this.y = y;
     }
-
-    public double getDamageMultiplier() {
-        return damageMultiplier;
-    }
-
-    public void setDamageMultiplier(double damageMultiplier) {
-        this.damageMultiplier = damageMultiplier;
-    }
-
     public double getHealth() {
         return Health;
     }
-
     public void setHealth(double health) {
         Health = health;
     }
     public void addHealth(double health) {
         Health += health;
     }
-
-    public int getMobility() {
-        return mobility;
-    }
-
     public void setMobility(int mobility) {
         this.mobility = mobility;
     }
-
-    public int getResil() {
-        return resil;
-    }
-
-    public void setResil(int resil) {
-        this.resil = resil;
-    }
-
     public int getRecov() {
         return recov;
     }
-
     public void setRecov(int recov) {
         this.recov = recov;
     }
-
-    public int getDicpline() {
-        return dicpline;
-    }
-
     public void setDicpline(int dicpline) {
         this.dicpline = dicpline;
     }
-
-    public int getIntellect() {
-        return intellect;
-    }
-
     public void setIntellect(int intellect) {
         this.intellect = intellect;
-    }
-
-    public int getStrength() {
-        return strength;
     }
 
     public void setStrength(int strength) {
@@ -191,20 +120,18 @@ public class Player {
         }
         return 0;
     }
-    public void update() {
+    public void update(int x, int y) {
+        updateShooting(x,y);
+    }
 
-        if(keyUtil.upPressed && y > 0) {
-            y -= movementSpeed;
-        }
-        if(keyUtil.leftPressed && x > 0) {
-            x -= movementSpeed;
-        }
-        if(keyUtil.downPressed && y < 1080) {
-            y+=movementSpeed;
-        }
-        if(keyUtil.rightPressed && x < 1920) {
-            x+=movementSpeed;
-        }
+    private void updateShooting(int x, int y) {
+
+    }
+
+    protected void shoot(int x, int y, double dir) {
+            //dir *= 180/Math.PI;
+
+
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.RED);

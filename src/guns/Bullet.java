@@ -1,48 +1,83 @@
 package guns;
 
+import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
+import player.Enemy;
 import utils.MouseUtil;
 
 import java.awt.*;
 
 public class Bullet {
-   MouseUtil mU = new MouseUtil();
-    private int x, y;// Bullet position
-    private double angle,dx,dy;
-    private int targetX, targetY; // Mouse positio
-    public Bullet(int x, int y, int targetX, int targetY) {
+    final protected int xOrigin, yOrigin;
+    protected double angle;
+    protected double x, y;
+    protected double nx, ny;
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    protected double distance;
+    protected double speed, range, damage;
+    protected int mouseX, mouseY;
+    BulletManager bulletManager = new BulletManager();
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public Bullet(int x, int y, int mouseX, int mouseY) {
+        xOrigin = x;
+        yOrigin = y;
         this.x = x;
         this.y = y;
-        this.targetX = targetX;
-        this.targetY = targetY;
-         dx = targetX - x;
-         dy = targetY - y;
-        angle = Math.atan2(dy,dx);
+        range = 200;
+        damage = 2;
+        speed = 1;
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        double dx = mouseX - x;
+        double dy = mouseY - y;
+        double dir = Math.atan2(dy, dx);
+        angle = dir +Math.toRadians(Math.random() * 10);
+        System.out.println(Math.toDegrees(angle));
+//        if(Math.toDegrees(angle) < -60) {
+//            angle = Math.toRadians(-60);
+//        } else if(Math.toDegrees(angle) > 60) {
+//            angle = Math.toRadians(60);
+//        }
+        nx = speed * Math.cos(angle);
+        ny = speed * Math.sin(angle);
     }
 
 
     public void update() {
+            move();
+    }
 
-        x += (int) Math.cos(angle);
-        y += (int) Math.sin(angle);
+    public void dealDamage(int playerX, int playerY, int damage , int playerW, int playerH, Enemy e) {
+        if (x + 5 >= playerX && x <= playerX + playerW && y + 5 >= playerY && y <= playerY + playerH) {
+            e.setHealth(e.geteHealth() - damage);
+
+        }
     }
 
     public void move() {
+        x += nx;
+        y += ny;
     }
-
-//    public void tick(int px, int py) {
-//        double dx = Math.abs(Mouse.getX() - px);
-//        double dy = Math.abs(Mouse.getY() - py);
-//        double angle = Math.atan2(dy,dx);
-//
-//        x += (int) (Math.cos(Math.toRadians(angle)) * 15);
-//        y += (int) (Math.sin(Math.toRadians(angle)) * 15);
-//
-//    }
 
 
     public void draw(Graphics2D g2) {
             g2.setColor(Color.white);
-            g2.fillRect((int)x,(int)y,10,4);
+            g2.fillOval((int)x,(int)y,5,5);
     }
 }

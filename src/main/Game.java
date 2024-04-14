@@ -22,7 +22,7 @@ public class Game extends JPanel implements Runnable {
     Enemy enemy;
     private int y = warlock.getY();
     private int x = warlock.getX();
-    private int wave = 11;
+    private int wave = 110;
 
 
 
@@ -33,8 +33,11 @@ public class Game extends JPanel implements Runnable {
     int FPS = 60;
     int baseFPS = 60;
     int multiplierFPS = 1;
+    private int kills = 0;
+    private int realwave = 1;
     private EnemyManager eM = new EnemyManager(wave);
-    private BulletManager bM;
+    private BulletManager bM = new BulletManager();
+
 
     Bullet bullet;
 
@@ -45,6 +48,7 @@ public class Game extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyUtil);
         this.addMouseListener(mouseUtil);
+        this.addMouseMotionListener(mouseUtil);
         this.setFocusable(true);
     }
     public void startGameThread() {
@@ -83,26 +87,75 @@ public class Game extends JPanel implements Runnable {
         }
     }
     public void update() {
+
         warlock.update();
         //.out.println(warlock.getHealth());
         if(warlock.getHealth() <= 0) {
             //gameThread.stop();
         }
         eM.update(warlock.getX(),warlock.getY(), warlock);
-        if(mouseUtil.isLmb()) {
-            bM = new BulletManager(x,y, mouseUtil.getX(), mouseUtil.getY());
-            bM.update();
-        }
 
+        if(MouseUtil.getButton() ==1) {
+
+            bM.addBullet(new Bullet(warlock.getX()+warlock.getPlayerWidth(),warlock.getY()+(warlock.getPlayerHeight()/2),MouseUtil.getX(),MouseUtil.getY() ));
+        }
+        if(!eM.getE().isEmpty()) {
+            for (int i = 0; i < eM.getE().size(); i++) {
+                int enemyX = eM.getE().get(i).getX();
+                int enemyY = eM.getE().get(i).getY();
+                bM.updates();
+                bM.update(enemyX, enemyY, 100, 25, 25, eM.getE().get(i));
+            }
+        }
+        if(eM.getE().isEmpty()) {
+            wave+=20;
+            realwave++;
+            eM = new EnemyManager(wave);
+        }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         warlock.draw(g2);
         eM.draw(g2);
-        if(mouseUtil.isLmb()) {
-            bM.draw(g2);
+        bM.draw(g2);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        g2.setColor(Color.WHITE);
+
+        g2.drawRect(screenWidth/2-251, 99,501,26);
+
+        g2.setColor(Color.WHITE);
+        if(warlock.getHealth() <= 200 && warlock.getHealth() > 80) {
+            g2.fillRect(screenWidth / 2 - 250, 100, (int) (warlock.getHealth() * 2.5), 25);
+        }
+        if(warlock.getHealth() <= 80 && warlock.getHealth() > 0) {
+
+            g2.setColor(new Color(176, 0, 0));
+            g2.fillRect(screenWidth / 2 - 250, 100, (int) (warlock.getHealth() * 2.5), 25);
+        }
+        if(warlock.getHealth() <=0) {
+            g2.fillRect(screenWidth / 2 - 250, 100, 0, 25);
+        }
+            if(warlock.getHealth() > 200) {
+            g2.fillRect(screenWidth / 2 - 250, 100, 500, 25);
+
+            g2.setColor(new Color(0, 234, 255));
+            g2.fillRect(screenWidth / 2 - 250, 100, (int) ((int) (warlock.getHealth()-200)*33.4), 25);
+        }
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("LEMONMILK-Regular", Font.BOLD,20));
+        g2.drawString("Wave: " + realwave, 0,20);
+        g2.drawString("Kills: " + eM.getKills(), 0,40);
+        if(warlock.getHealth() <=0 ) {
+            g2.setColor(new Color(255, 186, 0));
+            g2.setFont(new Font("LEMONMILK-Regular", Font.BOLD,100));
+            g2.drawString("You died", 680,480);
+            gameThread.stop();
         }
         g2.dispose();
+
     }
 }

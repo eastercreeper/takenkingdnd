@@ -31,11 +31,23 @@ public class EnemyManager {
         return kills;
     }
 
-    public EnemyManager(int wave) {
+    public EnemyManager(int wave, int px, int py) {
         for(int i = 0; i < wave; i++) {
-            x = (int) (Math.random() * 1920);
-            y = (int) (Math.random() * 1080);
-            addEnemy(new Enemy(g,keyUtil,x,y,25,25));
+            x =(int)(Math.random() * 1920);
+            y = (int)(Math.random() * 1080);
+            if(x  > px -500 && x < px) {
+                x-= 500;
+            }
+            if(x  < px + 500 && x > px) {
+                x+=500;
+            }
+            if(y  > py - 500 && y < py) {
+                y-= 500;
+            }
+            if(y  < py + 500 && y > py) {
+                y+= 500;
+            }
+            addEnemy(new Enemy(g, keyUtil, x, y, 25, 25));
         }
     }
     public void draw(Graphics2D g2) {

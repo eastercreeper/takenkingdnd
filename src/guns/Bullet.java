@@ -23,7 +23,17 @@ public class Bullet {
 
     protected double distance;
     protected double speed, range, damage;
+    private boolean dealingDamage = false;
     protected int mouseX, mouseY;
+
+    public boolean isDealingDamage() {
+        return dealingDamage;
+    }
+
+    public void setDealingDamage(boolean dealingDamage) {
+        this.dealingDamage = dealingDamage;
+    }
+
     BulletManager bulletManager = new BulletManager();
 
     public double getX() {
@@ -41,7 +51,7 @@ public class Bullet {
         this.y = y;
         range = 200;
         damage = 2;
-        speed = 1;
+        speed = 7;
         this.mouseX = mouseX;
         this.mouseY = mouseY;
         double dx = mouseX - x;
@@ -66,7 +76,7 @@ public class Bullet {
     public void dealDamage(int playerX, int playerY, int damage , int playerW, int playerH, Enemy e) {
         if (x + 5 >= playerX && x <= playerX + playerW && y + 5 >= playerY && y <= playerY + playerH) {
             e.setHealth(e.geteHealth() - damage);
-
+            dealingDamage = true;
         }
     }
 
@@ -77,7 +87,7 @@ public class Bullet {
 
 
     public void draw(Graphics2D g2) {
-            g2.setColor(Color.white);
+            g2.setColor(Color.YELLOW);
             g2.fillOval((int)x,(int)y,5,5);
     }
 }

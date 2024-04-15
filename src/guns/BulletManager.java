@@ -17,8 +17,12 @@ public class BulletManager {
     public void update(int playerX, int playerY, int damage , int playerW, int playerH, Enemy e) {
         for(int i = 0; i < bulletList.size(); i++) {
                 tb = bulletList.get(i);
-
-                tb.dealDamage(playerX, playerY, damage, playerW, playerH, e);
+                if(!tb.isDealingDamage()) {
+                    tb.dealDamage(playerX, playerY, damage, playerW, playerH, e);
+                }
+                if(tb.isDealingDamage()) {
+                    removeBulelt(tb);
+            }                tb.setDealingDamage(false);
         }
     }
     public void updates() {
@@ -27,7 +31,7 @@ public class BulletManager {
         int screenHeight = (int) screenSize.getHeight();
         for(int i = 0; i < bulletList.size(); i++) {
             tb = bulletList.get(i);
-            if(tb.getY()  < 0 || tb.getY() > screenHeight || tb.getX() < 0 || tb.getX() > screenWidth) {
+            if(tb.getY()  < 0 || tb.getY() > screenHeight || tb.getX() < 0|| tb.getX() > screenWidth + 20) {
                 removeBulelt(tb);
             }
             tb.update();

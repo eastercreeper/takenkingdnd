@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Game extends JPanel implements Runnable {
+public class    Game extends JPanel implements Runnable {
     Thread gameThread;
     KeyUtil keyUtil = new KeyUtil();
     MouseUtil mouseUtil = new MouseUtil();
@@ -22,7 +22,7 @@ public class Game extends JPanel implements Runnable {
     Enemy enemy;
     private int y = warlock.getY();
     private int x = warlock.getX();
-    private int wave = 110;
+    private int wave = 1;
 
 
 
@@ -35,14 +35,9 @@ public class Game extends JPanel implements Runnable {
     int multiplierFPS = 1;
     private int kills = 0;
     private int realwave = 1;
-    private EnemyManager eM = new EnemyManager(wave);
+    private int prevKills;
+    private EnemyManager eM = new EnemyManager(wave, warlock.getX(), warlock.getY());
     private BulletManager bM = new BulletManager();
-
-
-    Bullet bullet;
-
-
-
     public Game() {
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
@@ -103,14 +98,16 @@ public class Game extends JPanel implements Runnable {
             for (int i = 0; i < eM.getE().size(); i++) {
                 int enemyX = eM.getE().get(i).getX();
                 int enemyY = eM.getE().get(i).getY();
-                bM.updates();
                 bM.update(enemyX, enemyY, 100, 25, 25, eM.getE().get(i));
             }
         }
+        bM.updates();
+
         if(eM.getE().isEmpty()) {
-            wave+=20;
+            wave+=10;
             realwave++;
-            eM = new EnemyManager(wave);
+            prevKills += eM.getKills();
+            eM = new EnemyManager(wave, warlock.getX(), warlock.getY());
         }
     }
     public void paintComponent(Graphics g) {
@@ -148,7 +145,7 @@ public class Game extends JPanel implements Runnable {
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("LEMONMILK-Regular", Font.BOLD,20));
         g2.drawString("Wave: " + realwave, 0,20);
-        g2.drawString("Kills: " + eM.getKills(), 0,40);
+        g2.drawString("Kills: " + (eM.getKills() + prevKills), 0,40);
         if(warlock.getHealth() <=0 ) {
             g2.setColor(new Color(255, 186, 0));
             g2.setFont(new Font("LEMONMILK-Regular", Font.BOLD,100));
@@ -156,6 +153,5 @@ public class Game extends JPanel implements Runnable {
             gameThread.stop();
         }
         g2.dispose();
-
     }
 }

@@ -10,13 +10,9 @@ import java.util.TimerTask;
 
 public class Enemy extends Player {
 
-    private int Health = 500;
+    private int Health = 1000;
     private int spawnRate = 1;
-    private double Speed = 3 * (Math.random() * 1);
-
-
-
-
+    private double Speed = 5     * (Math.random() * 1) +1;
     private int Damage = 6;
     private boolean dealingDamage;
     private int x,y,width,height;
@@ -87,7 +83,7 @@ public class Enemy extends Player {
 
 @Override
     public void draw(Graphics2D g2) {
-            g2.setColor(Color.WHITE);
+            g2.setColor(Color.BLUE);
             g2.fillOval(x, y, width, height);
 
     }

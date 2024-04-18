@@ -47,7 +47,7 @@ public class EnemyManager {
             if(y  < py + 500 && y > py) {
                 y+= 500;
             }
-            addEnemy(new Enemy(g, keyUtil, x, y, 25, 25));
+            addEnemy(new Enemy( x, y, 25, 25));
         }
     }
     public void draw(Graphics2D g2) {
@@ -58,15 +58,21 @@ public class EnemyManager {
         }
     }
 
-    public void update(int playerX, int playerY,Player p) {
+    public void update(int playerX, int playerY,Player p, int playerWidth, int playerHeight) {
         for(int i = 0; i < e.size(); i++) {
             temp = e.get(i);
                 if(temp.geteHealth() <= 0) {
                     kills++;
                     removeEnemy(temp);
+                    if(p.getHealth()<213) {
+                        p.setHealth(p.getHealth() + 1);
+                    }
+                    if(p.getHealth()>=213) {
+                        p.setHealth(215);
+                    }
                 }
             temp.update(playerX,playerY);
-            temp.dealDamage(playerX,playerY,p);
+            temp.dealDamage(playerX,playerY,p, playerWidth, playerHeight);
             if(temp.isDealingDamage()) {
                 removeEnemy(temp);
             }

@@ -1,6 +1,7 @@
 package main;
 
 import main.Game;
+import utils.KeyUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,7 @@ public class Main {
     public static int getHEIGHT() {
         return HEIGHT;
     }
+    static KeyUtil keyUtil = new KeyUtil();
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();

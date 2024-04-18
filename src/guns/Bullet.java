@@ -50,14 +50,14 @@ public class Bullet {
         this.x = x;
         this.y = y;
         range = 200;
-        damage = 2;
-        speed = 7;
+        damage = .1d;
+        speed = 10;
         this.mouseX = mouseX;
         this.mouseY = mouseY;
         double dx = mouseX - x;
         double dy = mouseY - y;
         double dir = Math.atan2(dy, dx);
-        angle = dir +Math.toRadians(Math.random() * 10);
+        angle = dir +Math.toRadians(Math.random() * 5);
         System.out.println(Math.toDegrees(angle));
 //        if(Math.toDegrees(angle) < -60) {
 //            angle = Math.toRadians(-60);

@@ -80,6 +80,7 @@ public class    Game extends JPanel implements Runnable {
                 timer = 0;
             }
         }
+
     }
     public void update() {
 
@@ -88,7 +89,7 @@ public class    Game extends JPanel implements Runnable {
         if(warlock.getHealth() <= 0) {
             //gameThread.stop();
         }
-        eM.update(warlock.getX(),warlock.getY(), warlock);
+        eM.update(warlock.getX(),warlock.getY(), warlock,warlock.getPlayerWidth(),warlock.getPlayerHeight());
 
         if(MouseUtil.getButton() ==1) {
 
@@ -96,15 +97,16 @@ public class    Game extends JPanel implements Runnable {
         }
         if(!eM.getE().isEmpty()) {
             for (int i = 0; i < eM.getE().size(); i++) {
-                int enemyX = eM.getE().get(i).getX();
-                int enemyY = eM.getE().get(i).getY();
-                bM.update(enemyX, enemyY, 100, 25, 25, eM.getE().get(i));
+                double enemyX = eM.getE().get(i).getX();
+                double enemyY = eM.getE().get(i).getY();
+                bM.update((int)enemyX, (int)enemyY, 100, 25, 25, eM.getE().get(i));
             }
+            System.out.println(warlock.getHealth());
         }
         bM.updates();
 
         if(eM.getE().isEmpty()) {
-            wave+=10;
+            wave+=15;
             realwave++;
             prevKills += eM.getKills();
             eM = new EnemyManager(wave, warlock.getX(), warlock.getY());
@@ -144,14 +146,22 @@ public class    Game extends JPanel implements Runnable {
         }
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("LEMONMILK-Regular", Font.BOLD,20));
-        g2.drawString("Wave: " + realwave, 0,20);
+        g2.drawString("Enemies Left: " + (eM.getE().size()), 0,20);
         g2.drawString("Kills: " + (eM.getKills() + prevKills), 0,40);
+        g2.drawString("Wave: " + realwave, 0,60);
+
         if(warlock.getHealth() <=0 ) {
             g2.setColor(new Color(255, 186, 0));
             g2.setFont(new Font("LEMONMILK-Regular", Font.BOLD,100));
             g2.drawString("You died", 680,480);
             gameThread.stop();
         }
+        if(realwave == 1) {
+            g2.setFont(new Font("LEMONMILK-Regular", Font.BOLD,10));
+
+            g2.drawString("Press X to cast a healing rift and stand in it to heal", screenWidth/2-(g.getFontMetrics().stringWidth("Press X to cast a healing rift and stand in it to heal")/2),screenHeight/2);
+        }
         g2.dispose();
     }
+
 }

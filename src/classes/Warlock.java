@@ -42,8 +42,8 @@ public class Warlock extends Player {
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
 
-        setX(screenWidth/2);
-        setY(screenHeight/2);
+        setX(screenWidth/2-(75/2)+10);
+        setY(screenHeight/2+10);
     }
 
 

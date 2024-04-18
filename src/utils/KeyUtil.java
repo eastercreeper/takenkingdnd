@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyUtil implements KeyListener {
 
-    public boolean upPressed,downPressed,leftPressed,rightPressed,healingriftPressed,empoweringPressed;
+    public boolean upPressed,downPressed,leftPressed,rightPressed,healingriftPressed,empoweringPressed,escPressed;
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -32,6 +32,12 @@ public class KeyUtil implements KeyListener {
         }
         if(code == KeyEvent.VK_Z) {
             empoweringPressed = true;
+        }
+        if(code == KeyEvent.VK_ESCAPE && !escPressed) {
+            escPressed = true;
+        }
+        if(code == KeyEvent.VK_ESCAPE && escPressed) {
+            escPressed = false;
         }
     }
 
